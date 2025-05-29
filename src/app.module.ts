@@ -9,7 +9,7 @@ import { AppService } from './app.service';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      url: process.env.MONGODB_URI,
+      url: process.env.MONGO_URI,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
       

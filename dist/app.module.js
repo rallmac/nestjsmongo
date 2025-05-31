@@ -21,7 +21,7 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'mongodb',
-                url: process.env.MONGODB_URI,
+                url: process.env.MONGO_URI,
                 entities: [__dirname + '/**/*.entity{.ts,.js}'],
                 synchronize: true,
             }),

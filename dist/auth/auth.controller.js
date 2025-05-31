@@ -16,20 +16,23 @@ exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const local_auth_guard_1 = require("./local-auth.guard");
+const swagger_1 = require("@nestjs/swagger");
+const login_dto_1 = require("./dto/login.dto");
 let AuthController = class AuthController {
     authService;
     constructor(authService) {
         this.authService = authService;
     }
-    async login(req) {
-        return req.user;
+    async login(loginDto) {
+        return this.authService.login(loginDto);
     }
 };
 exports.AuthController = AuthController;
 __decorate([
     (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
     (0, common_1.Post)('login'),
-    __param(0, (0, common_1.Request)()),
+    (0, swagger_1.ApiBody)({ type: login_dto_1.LoginDto }),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)

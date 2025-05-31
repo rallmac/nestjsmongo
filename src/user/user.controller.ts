@@ -2,15 +2,33 @@ import { Controller, Post, Body, Get, Param, Patch, Query } from '@nestjs/common
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 import { User } from './user.entity';
+import { AuthService } from '../auth/auth.service';
+import { ApiBody } from '@nestjs/swagger';
+import { LoginDto } from '../auth/dto/login.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
+import { ConfirmEmailDto } from './dto/confirm-email.dto';
+import { RequestPasswordResetDto } from './dto/request-password-reset.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 
 @Controller('users')
 export class UserController {
-    constructor(private readonly userService: UserService) {}
+    constructor(
+        private readonly userService: UserService,
+        private readonly authService: AuthService,
+    ) {}
 
     @Post('register')
+    @ApiBody({ type: CreateUserDto })
     async createUser(@Body() createUserDto: CreateUserDto ): Promise<User> {
         return this.userService.createUser(createUserDto);
+    }
+
+    @Post('login')
+    @ApiBody({ type: LoginDto })
+    async login(@Body() loginDto: { email: string; password: string }) {
+        return this.authService.login(loginDto);
     }
 
     @Get('email')
@@ -29,6 +47,7 @@ export class UserController {
     }
 
     @Patch('change-password')
+    @ApiBody({ type: ChangePasswordDto })
     async changePassword(
         @Body() body: { username: string; oldPassword: string; newPassword: string }
     ) {
@@ -36,6 +55,7 @@ export class UserController {
     }
 
     @Get('confirm-email')
+    @ApiBody({ type: ConfirmEmailDto })
     async confirmEmail(@Query('token') token: string) {
         const user = await this.userService.confirmEmail(token);
         if (!user) {
@@ -45,16 +65,19 @@ export class UserController {
     }
 
     @Post('request-password-reset')
+    @ApiBody({ type: RequestPasswordResetDto })
     async requestPasswordReset(@Body() body: { email: string }) {
         return this.userService.requestPasswordReset(body.email);
     }
 
     @Post('reset-password')
+    @ApiBody({ type: ResetPasswordDto })
     async resetPassword(@Query('token') token: string, @Body() body: { newPassword: string }) {
         return this.userService.resetPassword(token, body.newPassword);
     }
 
     @Patch('id')
+    @ApiBody({ type: UpdateUserDto })
     async updateUser(
         @Param("id") id: string,
         @Body() { updateUserDto: UpdateUserDto,

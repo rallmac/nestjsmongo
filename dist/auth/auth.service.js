@@ -33,10 +33,20 @@ let AuthService = class AuthService {
         console.log('Invalid credentials');
         return null;
     }
-    async login(user) {
-        const payload = { username: user.username, sub: user.id };
+    async login(loginDto) {
+        const { email, password } = loginDto;
+        const user = await this.userService.findByEmail(email);
+        if (!user) {
+            throw new common_1.UnauthorizedException('Invalid credentials');
+        }
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            throw new common_1.UnauthorizedException('Invalid credentials');
+        }
+        const payload = { sub: user.id, email: user.email };
         return {
             access_token: this.jwtService.sign(payload),
+            user,
         };
     }
 };

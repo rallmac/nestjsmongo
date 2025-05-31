@@ -20,7 +20,7 @@ exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            user_module_1.UserModule,
+            (0, common_1.forwardRef)(() => user_module_1.UserModule),
             passport_1.PassportModule,
             jwt_1.JwtModule.register({
                 secret: 'SECRET',

@@ -11,7 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateUserDto = void 0;
 const class_validator_1 = require("class-validator");
-class UpdateUserDto {
+const create_user_dto_1 = require("./create-user.dto");
+const swagger_1 = require("@nestjs/swagger");
+class UpdateUserDto extends (0, swagger_1.PartialType)(create_user_dto_1.CreateUserDto) {
+    id;
     email;
     phoneNumber;
     address;
@@ -20,27 +23,36 @@ class UpdateUserDto {
 }
 exports.UpdateUserDto = UpdateUserDto;
 __decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], UpdateUserDto.prototype, "id", void 0);
+__decorate([
     (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
 ], UpdateUserDto.prototype, "email", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateUserDto.prototype, "phoneNumber", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateUserDto.prototype, "address", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Date)
 ], UpdateUserDto.prototype, "dateOfBirth", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.IsString)({ each: true }),
     __metadata("design:type", Array)

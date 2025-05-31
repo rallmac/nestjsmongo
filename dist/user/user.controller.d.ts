@@ -1,10 +1,19 @@
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 import { User } from './user.entity';
+import { AuthService } from '../auth/auth.service';
 export declare class UserController {
     private readonly userService;
-    constructor(userService: UserService);
+    private readonly authService;
+    constructor(userService: UserService, authService: AuthService);
     createUser(createUserDto: CreateUserDto): Promise<User>;
+    login(loginDto: {
+        email: string;
+        password: string;
+    }): Promise<{
+        access_token: string;
+        user: User;
+    }>;
     findByEmail(email: string): Promise<User | null>;
     findAll(): Promise<User[]>;
     findByUsername(username: string): Promise<User | null>;
